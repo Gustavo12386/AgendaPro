@@ -1,23 +1,14 @@
 {
   "projects": [
     {
-      "id": "6cf6",
-      "cost": 5000,
+      "id": "9236",
+      "budget": 5000,
+      "cost": 0,
       "services": [],
-      "name": "Projeto",
+      "name": "Meu Projeto Atualizado",
       "category": {
-        "id": "2",
-        "name": "Desenvolvimento"
-      }
-    },
-    {
-      "id": "806c",
-      "cost": 3000,
-      "services": [],
-      "name": "Projeto2",
-      "category": {
-        "id": "4",
-        "name": "Planejamento"
+        "id": "3",
+        "name": "Design"
       }
     }
   ],

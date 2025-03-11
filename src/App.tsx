@@ -8,6 +8,7 @@ import Container from './components/layout/Container.tsx'
 import Navbar from './components/layout/Navbar.tsx';
 import Footer from './components/layout/Footer.tsx';
 import Projects from './components/pages/Projects.tsx'
+import ProjectEdit from './components/pages/ProjectEdit.tsx'
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
         <Route path="/company" element={<Company />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/newproject" element={<NewProject />} />
+        <Route path="/project/:id" element={<ProjectEdit />} />
         </Routes>
       </Container>  
       <Footer/>

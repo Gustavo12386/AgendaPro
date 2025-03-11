@@ -8,6 +8,7 @@ interface Category {
 }
 
 interface Project {
+  budget: number; 
   cost: number;
   services: any[];
   name: string;
@@ -15,9 +16,10 @@ interface Project {
 }
 
 function NewProject() {
-  const navigate = useNavigate();
+  const navigate = useNavigate();  
 
   function createPost(formData: { name: string; budget: string; category_id: string }) {
+    console.log(formData);
     // Buscar categorias diretamente na função quando necessário
     fetch('http://localhost:5000/categories')
       .then((response) => response.json())
@@ -27,7 +29,8 @@ function NewProject() {
 
         if (selectedCategory) {
           const project: Project = {
-            cost: parseFloat(formData.budget),
+            budget: parseFloat(formData.budget),
+            cost: 0,
             services: [],
             name: formData.name,
             category: {

@@ -5,42 +5,64 @@ import Select from '../form/Select'
 import SubmitButton from '../form/SubmitButton'
 import React from 'react';
 
-interface ProjectFormProps {
-  handleSubmit: (formData: { name: string; budget: string; category_id: string }) => void;  
-  btnText: string;
+interface Category {
+  id: string; // ou number, dependendo do seu tipo no banco de dados
+  name: string;
 }
 
-function ProjectForm({ btnText, handleSubmit}: ProjectFormProps){
+interface ProjectFormProps {
+  handleSubmit: (formData: { name: string; budget: string; category_id: string }) => void;
+  btnText: string;
+  projectData?: { name: string; budget: string; category_id: string }; 
+}
 
-  const [categories, setCategories] = useState<{ id: number; name: string }[]>([]);
+function ProjectForm({ btnText, handleSubmit, projectData}: ProjectFormProps){
 
+  const [categories, setCategories] = useState<Category[]>([]);
   const [formData, setFormData] = useState({
     name: '',
-    budget: '',    
+    budget: '',   
     category_id: '',
   });
+  
+   // Carregar as categorias
+   useEffect(() => {
+    fetch("http://localhost:5000/categories", {
+      method: "GET",
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+    .then((resp) => resp.json())
+    .then((data) => setCategories(data))
+    .catch((err) => console.log(err));
+  }, []);
+
+  // Atualizar os dados do formulário se o `projectData` for fornecido
+  useEffect(() => {
+    if (projectData) {
+      console.log("Carregando dados do projeto:", projectData);  
+      setFormData({
+        name: projectData.name,
+        budget: projectData.budget,
+        category_id: projectData.category_id, 
+      });
+    }
+  }, [projectData]);
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData(prevData => ({
+    setFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
-  }
-
-  const handleCategory = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const { value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      category_id: value,
-    }));
   };
-
+  
   const submit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const budget = parseFloat(formData.budget);
     if (!isNaN(budget)) {
-      handleSubmit(formData); // Passa formData para o createPost em NewProject
+      handleSubmit(formData);
     } else {
       console.error("Orçamento inválido");
     }
@@ -67,7 +89,7 @@ function ProjectForm({ btnText, handleSubmit}: ProjectFormProps){
         text="Nome do Projeto"
         name="name"
         placeholder="Insira o nome do Projeto"
-        value={formData.name ? formData.name : ''}
+        value={formData.name}
         handleOnChange={handleOnChange}
       />
       <Input
@@ -75,19 +97,22 @@ function ProjectForm({ btnText, handleSubmit}: ProjectFormProps){
         text="Orçamento do Projeto"
         name="budget"
         placeholder="Insira o orçamento total"
-        value={formData.budget ? formData.budget : ''}
+        value={formData.budget}
         handleOnChange={handleOnChange}
       />
       <Select
         name="category_id"
         text="Selecione a Categoria"
         options={categories}
-        value={formData.category_id ? formData.category_id : ''}
-        handleOnChange={handleCategory}
+        value={formData.category_id}
+        handleOnChange={(e) => {
+          setFormData({ ...formData, category_id: e.target.value });
+        }}
       />
       <SubmitButton text={btnText} />
     </form>
-  )
+  );
+  
 }
 
 export default ProjectForm;
