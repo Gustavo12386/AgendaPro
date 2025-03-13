@@ -1,35 +1,49 @@
+import {v4 as uuidv4} from 'uuid'
 import styles from './Project.module.css'
 import { useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import Loading from '../layout/Loading'
 import Container from '../layout/Container';
 import ProjectForm from '../project/ProjectForm';
+import ServiceForm from '../service/ServiceForm';
 import Message from '../layout/Message';
+import { FormEvent } from 'react';
+import ServiceCard from '../service/ServiceCard'
 
 interface Category {
-    id: string;
-    name: string;    
+  id: string;
+  name: string;    
+}
+
+export interface Service {
+  id: string;
+  cost: string;
+  name: string;
+  description: string;  
 }
   
-interface Project {
+export interface Project {
     id: string;
     name: string;
     budget: string;
     cost: string;
     category_id: string;
     category: Category; 
+    services: Service[];
 }
 
 function ProjectEdit(){  
-  const {id} = useParams()
+  const { id } = useParams<{ id: string }>();
   const [categories, setCategories] = useState<Category[]>([]);
   const [project, setProject] = useState<Project | null>(null)
+  const [services, setServices] = useState<Service[]>([]);
   const [formData, setFormData] = useState({
     name: '',
     budget: '',
     category_id: '',
   });
   const [showProjectForm, setShowProjectForm] = useState(false)
+  const [showServiceForm, setShowServiceForm] = useState(false)
   const [message, setMessage] = useState<string | undefined>('');
   const [type, setType] = useState<string | undefined>('');
 
@@ -58,6 +72,7 @@ function ProjectEdit(){
           budget: data.budget,
           category_id: data.category.id          
         });
+        setServices(data.services)
       })
       .catch((err) => console.log(err));
   }, [id]); 
@@ -102,8 +117,77 @@ function ProjectEdit(){
     }
   }
 
+  function createService(event: FormEvent<HTMLFormElement>, project: Project) {   
+    // last service
+    const lastService = project.services[project.services.length - 1];
+    lastService.id = uuidv4();
+
+    const lastServiceCost = lastService.cost;
+
+    const newCost = parseFloat(project.cost) + parseFloat(lastServiceCost);
+
+    if (newCost > parseFloat(project.budget)) {
+        setMessage('Orcamento Ultrapassado, verifique o valor do serviço');
+        setType('error');
+        project.services.pop();
+        return false;
+    }
+
+    project.cost = newCost.toString();
+
+
+    fetch(`http://localhost:5000/projects/${project.id}`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(project),
+    })
+        .then((resp) => resp.json())
+        .then((data) => {
+            setShowServiceForm(false)
+            setMessage('Servico Adicionado');
+            setType('success');
+        })
+        .catch((err) => console.log(err));
+}
+
+function removeService(event: FormEvent<HTMLFormElement>, projectId: string, cost: string) {
+  if (!project) return; // Early return if project is null
+
+  const servicesUpdated = project.services.filter(
+      (service) => service.id !== projectId
+  );
+
+  const projectUpdated = { ...project }; // Clone the project object to avoid direct mutation
+
+  projectUpdated.services = servicesUpdated;
+  projectUpdated.cost = (parseFloat(projectUpdated.cost) - parseFloat(cost)).toString();
+
+  fetch(`http://localhost:5000/projects/${projectUpdated.id}`, {
+      method: 'PATCH',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(projectUpdated),
+  })
+      .then((resp) => resp.json())
+      .then((data) => {
+          setProject(projectUpdated);
+          setServices(servicesUpdated); 
+          setMessage('Servico removido com sucesso!');
+          setType('success');
+      })
+      .catch((err) => console.log(err));
+}
+
+
   function toogleProjectForm(){
     setShowProjectForm(!showProjectForm)
+  }
+
+  function toogleServiceForm(){
+    setShowServiceForm(!showServiceForm)
   }
 
   return(
@@ -134,7 +218,37 @@ function ProjectEdit(){
                 <ProjectForm handleSubmit={editPost} btnText='Concluir Edição' projectData={formData} />
               </div>   
             )}
-          </div>    
+          </div>  
+          <div className={styles.service_form_container}>
+            <h2>Adicione um serviço:</h2>  
+            <button className={styles.btn} onClick={toogleServiceForm}>
+               {!showServiceForm ? 'Adicionar serviço': 'Fechar'} 
+            </button>
+            <div className={styles.project_info}>
+                {showServiceForm && (
+                  <ServiceForm 
+                    handleSubmit={createService}
+                    btnText="Adicionar Serviço"
+                    projectData={project}
+                  />
+                )}
+            </div>
+          </div>  
+          <h2>Serviços</h2>
+          <Container customClass="start">
+            {services.length > 0 &&
+              services.map((service) => (
+                <ServiceCard
+                  id={service.id}
+                    name={service.name}
+                      cost={service.cost}
+                        description={service.description}
+                            key={service.id}
+                            handleRemove={removeService} 
+                        />
+                    ))}
+               {services.length === 0 && <p>Não há servicos cadastrados</p>}
+           </Container>
         </Container>      
        </div>
      ) : (

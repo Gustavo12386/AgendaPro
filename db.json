@@ -3,12 +3,43 @@
     {
       "id": "9236",
       "budget": 5000,
-      "cost": 0,
-      "services": [],
+      "cost": "300",
+      "services": [
+        {
+          "name": "Novo Serviço",
+          "cost": "100",
+          "description": "descricao",
+          "id": "1dba1ee8-1445-444b-93de-039beede9613"
+        },
+        {
+          "id": "7c812713-57dc-4c84-b42f-3f3d4b6fb7d4",
+          "cost": "100",
+          "name": "Novo Serviço2",
+          "description": "descricao2"
+        }
+      ],
       "name": "Meu Projeto Atualizado",
       "category": {
         "id": "3",
         "name": "Design"
+      }
+    },
+    {
+      "id": "7671",
+      "budget": 5000,
+      "cost": "500",
+      "services": [
+        {
+          "id": "aed4cea4-e341-4b8c-b827-8824a34c7471",
+          "cost": "500",
+          "name": "Contratar Dev PHP",
+          "description": "Criar função de Envio de E-mails"
+        }
+      ],
+      "name": "Novo Projeto",
+      "category": {
+        "id": "1",
+        "name": "Infra"
       }
     }
   ],
