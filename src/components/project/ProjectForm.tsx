@@ -6,7 +6,7 @@ import SubmitButton from '../form/SubmitButton'
 import React from 'react';
 
 interface Category {
-  id: string; // ou number, dependendo do seu tipo no banco de dados
+  id: string; 
   name: string;
 }
 
@@ -37,11 +37,9 @@ function ProjectForm({ btnText, handleSubmit, projectData}: ProjectFormProps){
     .then((data) => setCategories(data))
     .catch((err) => console.log(err));
   }, []);
-
-  // Atualizar os dados do formulário se o `projectData` for fornecido
+  
   useEffect(() => {
-    if (projectData) {
-      console.log("Carregando dados do projeto:", projectData);  
+    if (projectData) {      
       setFormData({
         name: projectData.name,
         budget: projectData.budget,
@@ -50,6 +48,7 @@ function ProjectForm({ btnText, handleSubmit, projectData}: ProjectFormProps){
     }
   }, [projectData]);
 
+  // trazer o valor de cada variavel para os campos input do formulário através do spread operator
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({

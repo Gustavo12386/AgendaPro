@@ -47,6 +47,7 @@ function ProjectEdit(){
   const [message, setMessage] = useState<string | undefined>('');
   const [type, setType] = useState<string | undefined>('');
 
+  //passando o nome da categoria
   useEffect(() => {
     fetch('http://localhost:5000/categories')
       .then((resp) => resp.json())
@@ -56,6 +57,7 @@ function ProjectEdit(){
       .catch((err) => console.log(err));
   }, []);
 
+  //passando os valores do formulario e o id da categoria
   useEffect(() => {
     fetch(`http://localhost:5000/projects/${id}`, {
       method: 'GET',
@@ -79,7 +81,7 @@ function ProjectEdit(){
   
 
   function editPost(formData: { name: string; budget: string; category_id: string }) {
-    console.log('FormData:', formData);
+    
     if (project) { 
         const updatedProject: Project = {
             ...project,
@@ -89,9 +91,8 @@ function ProjectEdit(){
               id: formData.category_id,
               name: categories.find((category) => category.id === formData.category_id)?.name!,
             },
-          };
-  
-      // Now you can proceed with the fetch and other logic as before
+          };  
+      
       if (parseFloat(updatedProject.budget) < parseFloat(updatedProject.cost)) {
         setMessage('O orçamento não pode ser menor que o custo do projeto!');
         setType('error');
@@ -118,12 +119,16 @@ function ProjectEdit(){
   }
 
   function createService(event: FormEvent<HTMLFormElement>, project: Project) {   
-    // last service
+    // ultimo serviço
     const lastService = project.services[project.services.length - 1];
+
+    //classificar o id do serviço
     lastService.id = uuidv4();
 
+    //custo do ultimo serviço
     const lastServiceCost = lastService.cost;
-
+   
+    //valor do novo custo
     const newCost = parseFloat(project.cost) + parseFloat(lastServiceCost);
 
     if (newCost > parseFloat(project.budget)) {
@@ -132,10 +137,11 @@ function ProjectEdit(){
         project.services.pop();
         return false;
     }
-
+    
+    // atualizar o valor do custo
     project.cost = newCost.toString();
 
-
+    //funcao para realizar a atualizacao na API
     fetch(`http://localhost:5000/projects/${project.id}`, {
         method: 'PATCH',
         headers: {
@@ -153,17 +159,24 @@ function ProjectEdit(){
 }
 
 function removeService(event: FormEvent<HTMLFormElement>, projectId: string, cost: string) {
-  if (!project) return; // Early return if project is null
 
+  // se o id for nulo interrompe a função
+  if (!project) return; 
+  // filtrar o valor do id
   const servicesUpdated = project.services.filter(
+      //o id não pode ser igual a do removido
       (service) => service.id !== projectId
   );
-
-  const projectUpdated = { ...project }; // Clone the project object to avoid direct mutation
-
+  
+  //passando o projeto do estado atual
+  const projectUpdated = project; 
+  
+  //selecionando o servico que deseja excluir do projeto
   projectUpdated.services = servicesUpdated;
+  //subtraindo o custo atual pelo custo do servico
   projectUpdated.cost = (parseFloat(projectUpdated.cost) - parseFloat(cost)).toString();
 
+  //funcao para realizar a atualizacao na API
   fetch(`http://localhost:5000/projects/${projectUpdated.id}`, {
       method: 'PATCH',
       headers: {

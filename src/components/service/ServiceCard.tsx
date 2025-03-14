@@ -12,8 +12,10 @@ interface PropsServiceCard {
 function ServiceCard({id, name, cost, description, handleRemove}: PropsServiceCard){
 
     const remove = (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault(); // Prevents the default action (form submission, if wrapped in a form)
-        handleRemove(e as any, id, cost);  // Pass the event, project id, and cost to the handler
+      if(window.confirm('Deseja deletar esse servico?')){
+        e.preventDefault(); 
+        handleRemove(e as any, id, cost);  
+      }  
     };
 
    return(

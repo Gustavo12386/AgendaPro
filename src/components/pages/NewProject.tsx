@@ -19,7 +19,7 @@ function NewProject() {
   const navigate = useNavigate();  
 
   function createPost(formData: { name: string; budget: string; category_id: string }) {
-    console.log(formData);
+
     // Buscar categorias diretamente na função quando necessário
     fetch('http://localhost:5000/categories')
       .then((response) => response.json())

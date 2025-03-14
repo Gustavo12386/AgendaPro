@@ -14,8 +14,10 @@ interface PropsProjectCard {
 function ProjectCard({id, name, budget, category, handleRemove}: PropsProjectCard){
   
     const remove = (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
-        handleRemove(id); 
+        if(window.confirm('Deseja deletar o projeto?')){
+          e.preventDefault();
+          handleRemove(id); 
+        }        
     };  
 
   return (
