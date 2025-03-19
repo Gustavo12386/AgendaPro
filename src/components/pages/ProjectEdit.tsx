@@ -118,81 +118,81 @@ function ProjectEdit(){
     }
   }
 
-  function createService(event: FormEvent<HTMLFormElement>, project: Project) {   
-    // ultimo serviço
+  function createService(_event: FormEvent<HTMLFormElement>, project: Project) {   
+    // último serviço
     const lastService = project.services[project.services.length - 1];
-
+  
     //classificar o id do serviço
     lastService.id = uuidv4();
-
-    //custo do ultimo serviço
+  
+    //custo do último serviço
     const lastServiceCost = lastService.cost;
-   
+  
     //valor do novo custo
     const newCost = parseFloat(project.cost) + parseFloat(lastServiceCost);
-
+  
     if (newCost > parseFloat(project.budget)) {
-        setMessage('Orcamento Ultrapassado, verifique o valor do serviço');
-        setType('error');
-        project.services.pop();
-        return false;
+      setMessage('Orçamento Ultrapassado, verifique o valor do serviço');
+      setType('error');
+      project.services.pop();
+      return false;
     }
-    
+  
     // atualizar o valor do custo
     project.cost = newCost.toString();
-
-    //funcao para realizar a atualizacao na API
+  
+    // função para realizar a atualização na API
     fetch(`http://localhost:5000/projects/${project.id}`, {
-        method: 'PATCH',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(project),
-    })
-        .then((resp) => resp.json())
-        .then((data) => {
-            setShowServiceForm(false)
-            setMessage('Servico Adicionado');
-            setType('success');
-        })
-        .catch((err) => console.log(err));
-}
-
-function removeService(event: FormEvent<HTMLFormElement>, projectId: string, cost: string) {
-
-  // se o id for nulo interrompe a função
-  if (!project) return; 
-  // filtrar o valor do id
-  const servicesUpdated = project.services.filter(
-      //o id não pode ser igual a do removido
-      (service) => service.id !== projectId
-  );
-  
-  //passando o projeto do estado atual
-  const projectUpdated = project; 
-  
-  //selecionando o servico que deseja excluir do projeto
-  projectUpdated.services = servicesUpdated;
-  //subtraindo o custo atual pelo custo do servico
-  projectUpdated.cost = (parseFloat(projectUpdated.cost) - parseFloat(cost)).toString();
-
-  //funcao para realizar a atualizacao na API
-  fetch(`http://localhost:5000/projects/${projectUpdated.id}`, {
       method: 'PATCH',
       headers: {
-          'Content-Type': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(project),
+    })
+    .then(() => {
+      setShowServiceForm(false)
+      setMessage('Serviço Adicionado');
+      setType('success');
+    })
+    .catch((err) => console.log(err));
+  }
+  
+
+  function removeService(_event: FormEvent<HTMLFormElement>, projectId: string, cost: string) {
+    // se o id for nulo, interrompe a função
+    if (!project) return;
+  
+    // filtrar o valor do id
+    const servicesUpdated = project.services.filter(
+      (service) => service.id !== projectId
+    );
+  
+    // criando uma cópia do projeto
+    const projectUpdated = project;
+  
+    // removendo o serviço selecionado do projeto
+    projectUpdated.services = servicesUpdated;
+    
+    // subtraindo o custo atual pelo custo do serviço
+    projectUpdated.cost = (parseFloat(projectUpdated.cost) - parseFloat(cost)).toString();
+  
+    // função para realizar a atualização na API
+    fetch(`http://localhost:5000/projects/${projectUpdated.id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(projectUpdated),
-  })
-      .then((resp) => resp.json())
-      .then((data) => {
-          setProject(projectUpdated);
-          setServices(servicesUpdated); 
-          setMessage('Servico removido com sucesso!');
-          setType('success');
-      })
-      .catch((err) => console.log(err));
-}
+    })
+    .then(() => {
+      setProject(projectUpdated);
+      setServices(servicesUpdated); 
+      setMessage('Serviço removido com sucesso!');
+      setType('success');
+    })
+    .catch((err) => console.log(err));
+  }
+  
 
 
   function toogleProjectForm(){
