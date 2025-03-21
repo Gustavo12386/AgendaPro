@@ -21,7 +21,7 @@ function NewProject() {
   function createPost(formData: { name: string; budget: string; category_id: string }) {
 
     // Buscar categorias diretamente na função quando necessário
-    fetch('http://localhost:5000/categories')
+    fetch("http://localhost:3000/api/categories")
       .then((response) => response.json())
       .then((categories: Category[]) => {
         const categoryId = formData.category_id;
@@ -39,7 +39,7 @@ function NewProject() {
             },
           };
 
-          fetch('http://localhost:5000/projects', {
+          fetch('http://localhost:3000/api/projects', {
             method: 'POST',
             headers: {
               'Content-type': 'application/json',

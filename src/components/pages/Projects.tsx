@@ -8,7 +8,7 @@ import Loading from '../layout/Loading'
 import { useState, useEffect } from "react"
 
 interface Project {
-    id: string;
+    _id: string;
     name: string;
     budget: string;
     category: { name: string };
@@ -27,7 +27,7 @@ function Projects(){
 
     useEffect(() => {
      setTimeout(() => {
-      fetch('http://localhost:5000/projects',{
+      fetch('http://localhost:3000/api/projects',{
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',  
@@ -43,14 +43,14 @@ function Projects(){
     }, [])
 
     function removeProject(id: string) {
-        fetch(`http://localhost:5000/projects/${id}`, {
+        fetch(`http://localhost:3000/api/projects/${id}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
             },
         }).then((resp) => resp.json())
           .then(() => {
-            setProjects(projects.filter((project) => project.id !== id));
+            setProjects(projects.filter((project) => project._id !== id));
             setProjectMessage('Projeto Removido com Sucesso!')
           })
           .catch((err) => console.log(err));
@@ -68,11 +68,11 @@ function Projects(){
             {projects.length > 0 &&
              projects.map((project) => (
                 <ProjectCard
-                 id={project.id}
+                 _id={project._id}
                  name={project.name}   
                  budget={project.budget}
                  category={project.category.name}
-                 key={project.id}       
+                 key={project._id}       
                  handleRemove={removeProject}       
                  />
             ))}

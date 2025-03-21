@@ -49,7 +49,7 @@ function ProjectEdit(){
 
   //passando o nome da categoria
   useEffect(() => {
-    fetch('http://localhost:5000/categories')
+    fetch('http://localhost:3000/api/categories')
       .then((resp) => resp.json())
       .then((data) => {
         setCategories(data);
@@ -59,7 +59,7 @@ function ProjectEdit(){
 
   //passando os valores do formulario e o id da categoria
   useEffect(() => {
-    fetch(`http://localhost:5000/projects/${id}`, {
+    fetch(`http://localhost:3000/api/projects/${id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -99,7 +99,7 @@ function ProjectEdit(){
         return false;
       }
   
-      fetch(`http://localhost:5000/projects/${updatedProject.id}`, {
+      fetch(`http://localhost:3000/api/projects/${updatedProject.id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -142,7 +142,7 @@ function ProjectEdit(){
     project.cost = newCost.toString();
   
     // função para realizar a atualização na API
-    fetch(`http://localhost:5000/projects/${project.id}`, {
+    fetch(`http://localhost:3000/api/projects/${project.id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -177,7 +177,7 @@ function ProjectEdit(){
     projectUpdated.cost = (parseFloat(projectUpdated.cost) - parseFloat(cost)).toString();
   
     // função para realizar a atualização na API
-    fetch(`http://localhost:5000/projects/${projectUpdated.id}`, {
+    fetch(`http://localhost:3000/api/projects/${projectUpdated.id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',

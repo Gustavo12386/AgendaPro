@@ -1,21 +1,21 @@
 {
   "projects": [
     {
-      "id": "9236",
-      "budget": 5000,
-      "cost": "5000",
+      "id": "79dd",
+      "budget": 2000,
+      "cost": "500",
       "services": [
         {
-          "id": "c9bc85ca-49e8-46f5-889d-643f10f5ec2c",
-          "cost": "5000",
-          "name": "Novo Serviço",
-          "description": "Contratar Tech Lead"
+          "id": "99c6df91-277a-429e-aeed-612e50b2f600",
+          "cost": "500",
+          "name": "Projeto",
+          "description": "servico"
         }
       ],
-      "name": "Meu Projeto Atualizado",
+      "name": "Novo Serviço",
       "category": {
-        "id": "3",
-        "name": "Design"
+        "id": "2",
+        "name": "Desenvolvimento"
       }
     }
   ],

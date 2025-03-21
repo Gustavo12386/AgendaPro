@@ -27,7 +27,7 @@ function ProjectForm({ btnText, handleSubmit, projectData}: ProjectFormProps){
   
    // Carregar as categorias
    useEffect(() => {
-    fetch("http://localhost:5000/categories", {
+    fetch("http://localhost:3000/api/categories", {
       method: "GET",
       headers: {
         'Content-Type': 'application/json',
@@ -68,7 +68,7 @@ function ProjectForm({ btnText, handleSubmit, projectData}: ProjectFormProps){
   };
 
   useEffect(() => {
-    fetch("http://localhost:5000/categories", {
+    fetch("http://localhost:3000/api/categories", {
       method: "GET",
       headers: {
         'Content-Type': 'application/json'

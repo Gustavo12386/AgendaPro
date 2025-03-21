@@ -4,19 +4,19 @@ import { Link } from 'react-router-dom';
 import React from 'react';
 
 interface PropsProjectCard {
-    id: string;
+    _id: string;
     name: string;
     budget: string;
     category: string;
-    handleRemove: (id: string) => void; 
+    handleRemove: (_id: string) => void; 
 }
 
-function ProjectCard({id, name, budget, category, handleRemove}: PropsProjectCard){
+function ProjectCard({_id, name, budget, category, handleRemove}: PropsProjectCard){
   
     const remove = (e: React.MouseEvent<HTMLButtonElement>) => {
         if(window.confirm('Deseja deletar o projeto?')){
           e.preventDefault();
-          handleRemove(id); 
+          handleRemove(_id); 
         }        
     };  
 
@@ -30,7 +30,7 @@ function ProjectCard({id, name, budget, category, handleRemove}: PropsProjectCar
         <span className={`${styles[category.toLowerCase()]}`}></span> {category}
       </p>
       <div className={styles.project_card_actions}>
-        <Link to={`/project/${id}`}>
+        <Link to={`/project/${_id}`}>
            <BsPencil/> Editar
         </Link>
         <button onClick={remove}>
