@@ -9,7 +9,7 @@ inserir serviços adicionais (considerando o custo projeto) de acordo com a nece
 - CSS3
 - TypeScript
 - React.js
-- db.json
+- Vite
 
 ## 🗒️ Roteiro
 - Criação da Interface
@@ -21,8 +21,6 @@ inserir serviços adicionais (considerando o custo projeto) de acordo com a nece
 - Clone o repositório em qualquer IDE
 - Execute o comando `npm install` para instalar os pacotes do projeto
 - Em seguida execute `npm run dev` para inicializar a aplicação
-- E também execute `npm run backend` para executar o db.json
-
 
 ## Autor 
 - Gustavo Calderaro
