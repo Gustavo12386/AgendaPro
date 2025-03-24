@@ -27,7 +27,7 @@ function Projects(){
 
     useEffect(() => {
      setTimeout(() => {
-      fetch('http://localhost:3000/api/projects',{
+      fetch('https://api-agendapro.vercel.app/api/projects',{
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',  
@@ -43,7 +43,7 @@ function Projects(){
     }, [])
 
     function removeProject(id: string) {
-        fetch(`http://localhost:3000/api/projects/${id}`, {
+        fetch(`https://api-agendapro.vercel.app/api/projects/${id}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',

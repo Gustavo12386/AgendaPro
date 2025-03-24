@@ -23,7 +23,7 @@ export interface Service {
 }
   
 export interface Project {
-    id: string;
+    _id: string;
     name: string;
     budget: string;
     cost: string;
@@ -34,6 +34,7 @@ export interface Project {
 
 function ProjectEdit(){  
   const { id } = useParams<{ id: string }>();
+  const [updateTrigger, setUpdateTrigger] = useState(0);
   const [categories, setCategories] = useState<Category[]>([]);
   const [project, setProject] = useState<Project | null>(null)
   const [services, setServices] = useState<Service[]>([]);
@@ -49,17 +50,17 @@ function ProjectEdit(){
 
   //passando o nome da categoria
   useEffect(() => {
-    fetch('http://localhost:3000/api/categories')
+    fetch('https://api-agendapro.vercel.app/api/categories')
       .then((resp) => resp.json())
       .then((data) => {
         setCategories(data);
       })
       .catch((err) => console.log(err));
-  }, []);
+  }, []);  
 
   //passando os valores do formulario e o id da categoria
   useEffect(() => {
-    fetch(`http://localhost:3000/api/projects/${id}`, {
+    fetch(`https://api-agendapro.vercel.app/api/projects/${id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -77,8 +78,7 @@ function ProjectEdit(){
         setServices(data.services)
       })
       .catch((err) => console.log(err));
-  }, [id]); 
-  
+  }, [id, updateTrigger]);  
 
   function editPost(formData: { name: string; budget: string; category_id: string }) {
     
@@ -99,7 +99,7 @@ function ProjectEdit(){
         return false;
       }
   
-      fetch(`http://localhost:3000/api/projects/${updatedProject.id}`, {
+      fetch(`https://api-agendapro.vercel.app/api/projects/${updatedProject._id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -109,10 +109,16 @@ function ProjectEdit(){
         .then((resp) => resp.json())
         .then((data) => {
           console.log('Resposta do servidor:', data);
-          setProject(data);
+          setProject({ ...data });
+          setFormData({ 
+            name: data.name, 
+            budget: data.budget, 
+            category_id: data.category.id 
+          });
           setShowProjectForm(false);
           setMessage('Projeto Atualizado');
           setType('success');
+          setUpdateTrigger((prev) => prev + 1);
         })
         .catch((err) => console.log(err));
     }
@@ -142,7 +148,7 @@ function ProjectEdit(){
     project.cost = newCost.toString();
   
     // função para realizar a atualização na API
-    fetch(`http://localhost:3000/api/projects/${project.id}`, {
+    fetch(`https://api-agendapro.vercel.app/api/projects/${project._id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -177,7 +183,7 @@ function ProjectEdit(){
     projectUpdated.cost = (parseFloat(projectUpdated.cost) - parseFloat(cost)).toString();
   
     // função para realizar a atualização na API
-    fetch(`http://localhost:3000/api/projects/${projectUpdated.id}`, {
+    fetch(`https://api-agendapro.vercel.app/api/projects/${projectUpdated._id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',

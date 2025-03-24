@@ -27,7 +27,7 @@ function ProjectForm({ btnText, handleSubmit, projectData}: ProjectFormProps){
   
    // Carregar as categorias
    useEffect(() => {
-    fetch("http://localhost:3000/api/categories", {
+    fetch("https://api-agendapro.vercel.app/api/categories", {
       method: "GET",
       headers: {
         'Content-Type': 'application/json',
@@ -65,21 +65,7 @@ function ProjectForm({ btnText, handleSubmit, projectData}: ProjectFormProps){
     } else {
       console.error("Orçamento inválido");
     }
-  };
-
-  useEffect(() => {
-    fetch("http://localhost:3000/api/categories", {
-      method: "GET",
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-    .then((resp) => resp.json())
-    .then((data) => {
-      setCategories(data)
-    })
-    .catch((err) => console.log(err))
-  }, [])
+  };  
 
   return (
     <form onSubmit={submit} className={styles.form}>

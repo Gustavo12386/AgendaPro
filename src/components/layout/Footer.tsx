@@ -1,19 +1,10 @@
-import { FaLinkedin, FaGithub } from "react-icons/fa"
 import styles from './Footer.module.css'
 
 function Footer(){
   return (
-    <footer className={styles.footer}>
-      <ul className={styles.social_list}>
-        <li>
-         <FaLinkedin/>   
-        </li>
-        <li>
-         <FaGithub/>   
-        </li>  
-      </ul>  
+    <footer className={styles.footer}>      
       <p className={styles.copy_right}>
-        <span>AgendaPro</span> &copy; 2025
+        <span className={styles.title}>AgendaPro</span><span className={styles.copy}>&copy; 2025</span> 
       </p>
     </footer>
   )
