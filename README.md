@@ -1,5 +1,7 @@
 # AgendaPro
 
+- link-site: https://agendapro.netlify.app/
+
 ## 💻 Sobre a Aplicação
 - Essa aplicação feita com React.js se trata de um sistema de gerenciar o planejamento de projetos para serem construídos futuramente e também permite
 inserir serviços adicionais (considerando o custo projeto) de acordo com a necessidade que o projeto apresenta.
