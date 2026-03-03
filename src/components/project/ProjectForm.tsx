@@ -27,7 +27,7 @@ function ProjectForm({ btnText, handleSubmit, projectData}: ProjectFormProps){
   
    // Carregar as categorias
    useEffect(() => {
-    fetch("https://api-agendapro.vercel.app/api/categories", {
+    fetch("http://localhost:3000/newproject/categories", {
       method: "GET",
       headers: {
         'Content-Type': 'application/json',

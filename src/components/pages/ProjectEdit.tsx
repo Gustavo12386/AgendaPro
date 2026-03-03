@@ -50,7 +50,7 @@ function ProjectEdit(){
 
   //passando o nome da categoria
   useEffect(() => {
-    fetch('https://api-agendapro.vercel.app/api/categories')
+    fetch('http://localhost:3000/newproject/categories')
       .then((resp) => resp.json())
       .then((data) => {
         setCategories(data);
@@ -60,7 +60,7 @@ function ProjectEdit(){
 
   //passando os valores do formulario e o id da categoria
   useEffect(() => {
-    fetch(`https://api-agendapro.vercel.app/api/projects/${id}`, {
+    fetch(`http://localhost:3000/newproject/projects/${id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -99,8 +99,8 @@ function ProjectEdit(){
         return false;
       }
   
-      fetch(`https://api-agendapro.vercel.app/api/projects/${updatedProject._id}`, {
-        method: 'PATCH',
+      fetch(`http://localhost:3000/newproject/projects/${updatedProject._id}`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -148,8 +148,8 @@ function ProjectEdit(){
     project.cost = newCost.toString();
   
     // função para realizar a atualização na API
-    fetch(`https://api-agendapro.vercel.app/api/projects/${project._id}`, {
-      method: 'PATCH',
+    fetch(`http://localhost:3000/newproject/projects/${project._id}`, {
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -183,8 +183,8 @@ function ProjectEdit(){
     projectUpdated.cost = (parseFloat(projectUpdated.cost) - parseFloat(cost)).toString();
   
     // função para realizar a atualização na API
-    fetch(`https://api-agendapro.vercel.app/api/projects/${projectUpdated._id}`, {
-      method: 'PATCH',
+    fetch(`http://localhost:3000/newproject/projects/${projectUpdated._id}`, {
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -223,7 +223,7 @@ function ProjectEdit(){
             {!showProjectForm ? (
               <div className={styles.project_info}>
                 <p>
-                  <span>Categoria:</span>{project.category.name}   
+                  <span>Categoria:</span>{project.category[0].name}   
                 </p>
                 <p>
                   <span>Total de Orçamento:</span> R$ {project.budget}   
