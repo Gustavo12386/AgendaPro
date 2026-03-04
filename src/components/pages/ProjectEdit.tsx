@@ -28,7 +28,7 @@ export interface Project {
     budget: string;
     cost: string;
     category_id: string;
-    category: Category; 
+    category: Category[]; 
     services: Service[];
 }
 
@@ -223,7 +223,7 @@ function ProjectEdit(){
             {!showProjectForm ? (
               <div className={styles.project_info}>
                 <p>
-                  <span>Categoria:</span>{project.category?.name}   
+                  <span>Categoria:</span>{project.category?.[0]?.name}   
                 </p>
                 <p>
                   <span>Total de Orçamento:</span> R$ {project.budget}   
