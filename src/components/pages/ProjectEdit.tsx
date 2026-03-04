@@ -87,10 +87,14 @@ function ProjectEdit(){
             ...project,
             name: formData.name,
             budget: formData.budget,
-            category: {
-              id: formData.category_id,
-              name: categories.find((category) => category.id === formData.category_id)?.name!,
-            },
+            category: [
+              {
+                id: formData.category_id,
+                  name: categories.find(
+                    (category) => category.id === formData.category_id
+                  )?.name!,
+              }
+            ],
           };  
       
       if (parseFloat(updatedProject.budget) < parseFloat(updatedProject.cost)) {
@@ -113,7 +117,7 @@ function ProjectEdit(){
           setFormData({ 
             name: data.name, 
             budget: data.budget, 
-            category_id: data.category.id 
+            category_id: data.category?.[0]?.id
           });
           setShowProjectForm(false);
           setMessage('Projeto Atualizado');
