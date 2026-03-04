@@ -7,11 +7,16 @@ import styles from "./Projects.module.css"
 import Loading from '../layout/Loading'
 import { useState, useEffect } from "react"
 
+interface Category {
+  id: string;
+  name: string;
+}
+
 interface Project {
-    _id: string;
-    name: string;
-    budget: string;
-    category: { name: string };
+  _id: string;
+  name: string;
+  budget: string;
+  category: Category[];   
 }
 
 function Projects(){
