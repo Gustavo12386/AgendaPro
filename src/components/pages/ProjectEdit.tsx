@@ -223,7 +223,7 @@ function ProjectEdit(){
             {!showProjectForm ? (
               <div className={styles.project_info}>
                 <p>
-                  <span>Categoria:</span>{project.category[0].name}   
+                  <span>Categoria:</span>{project.category?.name}   
                 </p>
                 <p>
                   <span>Total de Orçamento:</span> R$ {project.budget}   
