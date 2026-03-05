@@ -50,7 +50,7 @@ function ProjectEdit(){
 
   //passando o nome da categoria
   useEffect(() => {
-    fetch('http://localhost:3000/newproject/categories')
+    fetch('https://api-agenda-pro-nest-js.vercel.app/newproject/categories')
       .then((resp) => resp.json())
       .then((data) => {
         setCategories(data);
@@ -60,7 +60,7 @@ function ProjectEdit(){
 
   //passando os valores do formulario e o id da categoria
   useEffect(() => {
-    fetch(`http://localhost:3000/newproject/projects/${id}`, {
+    fetch(`https://api-agenda-pro-nest-js.vercel.app/newproject/projects/${id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -103,7 +103,7 @@ function ProjectEdit(){
         return false;
       }
   
-      fetch(`http://localhost:3000/newproject/projects/${updatedProject._id}`, {
+      fetch(`https://api-agenda-pro-nest-js.vercel.app/newproject/projects/${updatedProject._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -152,7 +152,7 @@ function ProjectEdit(){
     project.cost = newCost.toString();
   
     // função para realizar a atualização na API
-    fetch(`http://localhost:3000/newproject/projects/${project._id}`, {
+    fetch(`https://api-agenda-pro-nest-js.vercel.app/newproject/projects/${project._id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -187,7 +187,7 @@ function ProjectEdit(){
     projectUpdated.cost = (parseFloat(projectUpdated.cost) - parseFloat(cost)).toString();
   
     // função para realizar a atualização na API
-    fetch(`http://localhost:3000/newproject/projects/${projectUpdated._id}`, {
+    fetch(`https://api-agenda-pro-nest-js.vercel.app/newproject/projects/${projectUpdated._id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

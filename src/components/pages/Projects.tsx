@@ -32,7 +32,7 @@ function Projects(){
 
     useEffect(() => {
      setTimeout(() => {
-      fetch('http://localhost:3000/newproject/projects',{
+      fetch('https://api-agenda-pro-nest-js.vercel.app/newproject/projects',{
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',  
@@ -48,7 +48,7 @@ function Projects(){
     }, [])
 
     function removeProject(id: string) {
-        fetch(`http://localhost:3000/newproject/projects/${id}`, {
+        fetch(`https://api-agenda-pro-nest-js.vercel.app/newproject/projects/${id}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
