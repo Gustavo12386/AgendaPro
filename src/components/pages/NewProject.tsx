@@ -19,13 +19,17 @@ function NewProject() {
   const navigate = useNavigate();  
 
   function createPost(formData: { name: string; budget: string; category_id: string }) {
-
+   
+    console.log('CREATE POST CHAMADO');
+    console.log(formData);
     // Buscar categorias diretamente na função quando necessário
     fetch("https://api-agenda-pro-nest-js.vercel.app/newproject/categories")
       .then((response) => response.json())
       .then((categories: Category[]) => {
         const categoryId = formData.category_id;
-        const selectedCategory = categories.find((category) => category.id === categoryId);
+        const selectedCategory = categories.find(
+          (category) => String(category.id) === String(categoryId)
+        );
 
         if (selectedCategory) {
           const project: Project = {
@@ -38,7 +42,10 @@ function NewProject() {
               name: selectedCategory.name,
             },
           };
-
+          
+          console.log('categoryId:', categoryId);
+          console.log('categories:', categories);
+          
           fetch('https://api-agenda-pro-nest-js.vercel.app/newproject/projects', {
             method: 'POST',
             headers: {
